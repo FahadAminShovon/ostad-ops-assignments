@@ -1,0 +1,19 @@
+# AWS Configuration
+aws_profile   = "your-aws-profile"
+aws_region    = "us-east-1"
+
+# S3 Bucket Configuration
+bucket_name   = "your-unique-bucket-name"
+
+# EC2 Configuration
+instance_type = "t2.micro"
+vpc_id        = "vpc-xxxxxxxxxxxxxxxxx"
+key_name      = "your-key-pair-name"
+
+# Tags
+tags = {
+  Project     = "Assignment"
+  Name        = "Module7"
+  Owner       = "YourName"
+  Environment = "Dev"
+}
