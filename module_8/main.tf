@@ -145,3 +145,71 @@ resource "aws_security_group" "private" {
     Name = "${var.project_name}-private-sg"
   }
 }
+
+
+data "aws_ami" "ubuntu_2404" {
+  owners      = ["099720109477"]
+  most_recent = true
+  filter {
+    name   = "name"
+    values = ["*ubuntu-noble-24.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+}
+
+resource "aws_instance" "bastion" {
+  ami           = data.aws_ami.ubuntu_2404.id
+  instance_type = var.instance_type
+  key_name      = aws_key_pair.this.key_name
+
+  subnet_id                   = aws_subnet.public.id
+  vpc_security_group_ids      = [aws_security_group.public.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "${var.project_name}-bastion"
+  }
+
+}
+
+resource "aws_instance" "public" {
+  ami           = data.aws_ami.ubuntu_2404.id
+  instance_type = var.instance_type
+  key_name      = aws_key_pair.this.key_name
+
+  subnet_id                   = aws_subnet.public.id
+  vpc_security_group_ids      = [aws_security_group.public.id]
+  associate_public_ip_address = true
+
+  tags = {
+    Name = "${var.project_name}-public-ec2"
+  }
+}
+
+resource "aws_instance" "private" {
+  ami           = data.aws_ami.ubuntu_2404.id
+  instance_type = var.instance_type
+  key_name      = aws_key_pair.this.key_name
+
+  subnet_id                   = aws_subnet.private.id
+  vpc_security_group_ids      = [aws_security_group.private.id]
+  associate_public_ip_address = false
+
+  tags = {
+    Name = "${var.project_name}-private-ec2"
+  }
+}

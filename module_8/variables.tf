@@ -42,3 +42,10 @@ variable "ssh_allowed_cidr" {
   description = "Your public IP in CIDR form for SSH access (e.g., 203.0.113.10/32)"
   default     = "0.0.0.0/0"
 }
+
+variable "instance_type" {
+  type        = string
+  description = "EC2 instance type"
+  default     = "t2.micro"
+}
+
