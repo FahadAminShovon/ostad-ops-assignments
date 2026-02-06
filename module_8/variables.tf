@@ -36,3 +36,9 @@ variable "az" {
   type        = string
   description = "Availability Zone for both subnets (e.g., us-east-1a)"
 }
+
+variable "ssh_allowed_cidr" {
+  type        = string
+  description = "Your public IP in CIDR form for SSH access (e.g., 203.0.113.10/32)"
+  default     = "0.0.0.0/0"
+}
