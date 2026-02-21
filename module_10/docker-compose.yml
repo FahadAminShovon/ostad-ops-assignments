@@ -1,0 +1,19 @@
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  app:
+    image: fahad991/ostad-module-10:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - "5001"
+    environment:
+      - PORT=5001
